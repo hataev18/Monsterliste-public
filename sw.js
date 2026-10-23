@@ -1,9 +1,9 @@
 'use strict';
 // Service Worker: legt die App-Dateien lokal ab, damit alles ohne Internet läuft.
-const CACHE = 'monsterliste-v1';
+const CACHE = 'monsterliste-v2';
 const ASSETS = [
   './', 'index.html', 'style.css', 'app.js', 'manifest.webmanifest',
-  'icons/monster.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png'
+  'monster.svg', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png'
 ];
 
 self.addEventListener('install', e => {

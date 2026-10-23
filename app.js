@@ -6,6 +6,23 @@ const KEY = 'monsterliste.v1';
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
 
+/* Ersatz für Browser/WebViews ohne <dialog>-Unterstützung */
+(function () {
+  const proto = window.HTMLDialogElement && HTMLDialogElement.prototype;
+  const nativeOk = proto && typeof proto.showModal === 'function';
+  document.querySelectorAll('dialog').forEach(d => {
+    if (nativeOk) return;
+    d.showModal = function () { this.setAttribute('open', ''); this.classList.add('fallback'); document.body.classList.add('modal-open'); };
+    d.close = function () { this.removeAttribute('open'); this.classList.remove('fallback'); if (!document.querySelector('dialog[open]')) document.body.classList.remove('modal-open'); };
+  });
+})();
+
+/* Fehler sichtbar machen statt stillschweigend nichts zu tun */
+window.addEventListener('error', e => {
+  const el = document.getElementById('toast');
+  if (el) { el.textContent = 'Fehler: ' + (e.message || 'unbekannt'); el.hidden = false; }
+});
+
 /* ---------- Daten ---------- */
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 
@@ -406,7 +423,7 @@ $('#xFile').addEventListener('change', async e => {
 /* ---------- Erinnerungen ---------- */
 async function notify(title, body, tag) {
   if (!('Notification' in window) || Notification.permission !== 'granted') return false;
-  const opts = { body, tag, icon: 'icons/icon-192.png', badge: 'icons/icon-192.png', vibrate: [200, 100, 200] };
+  const opts = { body, tag, icon: 'icon-192.png', badge: 'icon-192.png', vibrate: [200, 100, 200] };
   try {
     const reg = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistration() : null;
     if (reg) await reg.showNotification(title, opts); else new Notification(title, opts);
