@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0fb5ba">
+  <meta name="color-scheme" content="light dark">
+  <title>Monsterliste</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="icons/monster.svg">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <img class="logo" src="icons/monster.svg" alt="" width="44" height="44">
+    <h1>Monsterliste</h1>
+    <button id="menuBtn" class="icon-btn" type="button" aria-label="Menü">⋮</button>
+  </header>
+
+  <nav class="lists" id="lists" aria-label="Listen"></nav>
+
+  <main>
+    <section id="banner" class="banner" hidden></section>
+
+    <div class="filters" role="tablist" aria-label="Filter">
+      <button type="button" data-filter="open" class="chip active">Offen</button>
+      <button type="button" data-filter="done" class="chip">Erledigt</button>
+      <button type="button" data-filter="all" class="chip">Alle</button>
+    </div>
+
+    <ul id="tasks" class="tasks"></ul>
+    <p id="empty" class="empty" hidden>
+      <img src="icons/monster.svg" alt="" width="96" height="96"><br>
+      Nichts zu tun – das Monster ist zufrieden!
+    </p>
+  </main>
+
+  <button id="fab" class="fab" type="button" aria-label="Neue Aufgabe">＋</button>
+
+  <!-- Aufgabe anlegen / bearbeiten -->
+  <dialog id="taskDlg">
+    <form id="taskForm" method="dialog">
+      <h2 id="taskDlgTitle">Neue Aufgabe</h2>
+
+      <label>Aufgabe
+        <input id="fTitle" type="text" required maxlength="200" autocomplete="off" placeholder="Was ist zu tun?">
+      </label>
+
+      <fieldset>
+        <legend>Priorität</legend>
+        <div class="seg">
+          <input type="radio" name="prio" id="p1" value="1"><label for="p1" class="p-high">Hoch</label>
+          <input type="radio" name="prio" id="p2" value="2" checked><label for="p2" class="p-mid">Mittel</label>
+          <input type="radio" name="prio" id="p3" value="3"><label for="p3" class="p-low">Niedrig</label>
+        </div>
+      </fieldset>
+
+      <label>Erledigen bis
+        <input id="fDue" type="datetime-local">
+      </label>
+
+      <label>Erinnern
+        <select id="fRemind">
+          <option value="0">Zur Fälligkeit</option>
+          <option value="15">15 Minuten vorher</option>
+          <option value="60">1 Stunde vorher</option>
+          <option value="180">3 Stunden vorher</option>
+          <option value="1440">1 Tag vorher</option>
+        </select>
+      </label>
+
+      <label>Liste
+        <select id="fList"></select>
+      </label>
+
+      <label>Notiz (optional)
+        <textarea id="fNote" rows="2" maxlength="1000"></textarea>
+      </label>
+
+      <div class="actions">
+        <button type="button" id="delTask" class="btn danger" hidden>Löschen</button>
+        <span class="spacer"></span>
+        <button type="button" id="cancelTask" class="btn ghost">Abbrechen</button>
+        <button type="submit" class="btn primary">Speichern</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Menü -->
+  <dialog id="menuDlg">
+    <h2>Menü</h2>
+    <div class="menu">
+      <button type="button" id="mNewList" class="btn">Neue Liste</button>
+      <button type="button" id="mRename" class="btn">Liste umbenennen</button>
+      <button type="button" id="mDelList" class="btn danger">Liste löschen</button>
+      <button type="button" id="mClearDone" class="btn">Erledigte Aufgaben entfernen</button>
+      <button type="button" id="mExport" class="btn primary">Exportieren / Sichern</button>
+      <button type="button" id="mNotif" class="btn">Erinnerungen aktivieren</button>
+      <button type="button" id="mInstall" class="btn" hidden>App installieren</button>
+      <p class="hint" id="notifHint"></p>
+      <p class="hint">Datenschutz: Alle Daten bleiben ausschließlich auf diesem Gerät. Die App benötigt kein Internet, nutzt keine Server und gibt nichts an Dritte weiter.</p>
+      <button type="button" class="btn ghost" data-close>Schließen</button>
+    </div>
+  </dialog>
+
+  <!-- Export -->
+  <dialog id="exportDlg">
+    <h2>Exportieren</h2>
+    <label>Umfang
+      <select id="xScope">
+        <option value="current">Aktuelle Liste</option>
+        <option value="all">Alle Listen</option>
+      </select>
+    </label>
+    <label class="check"><input type="checkbox" id="xDone" checked> Erledigte Aufgaben einschließen</label>
+    <div class="menu">
+      <button type="button" id="xShare" class="btn primary">Teilen / per E-Mail senden</button>
+      <button type="button" id="xMail" class="btn">E-Mail-App öffnen</button>
+      <button type="button" id="xTxt" class="btn">Als Textdatei speichern</button>
+      <hr>
+      <button type="button" id="xJson" class="btn">Komplettsicherung (.json)</button>
+      <button type="button" id="xImport" class="btn">Sicherung wiederherstellen</button>
+      <input type="file" id="xFile" accept="application/json,.json" hidden>
+      <button type="button" class="btn ghost" data-close>Schließen</button>
+    </div>
+  </dialog>
+
+  <!-- Eingabe-Dialog für Listennamen -->
+  <dialog id="nameDlg">
+    <form id="nameForm" method="dialog">
+      <h2 id="nameTitle">Liste</h2>
+      <label>Name
+        <input id="nameInput" type="text" required maxlength="60" autocomplete="off">
+      </label>
+      <div class="actions">
+        <span class="spacer"></span>
+        <button type="button" id="nameCancel" class="btn ghost">Abbrechen</button>
+        <button type="submit" class="btn primary">OK</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

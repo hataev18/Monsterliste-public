@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#18c7c9"/>
+      <stop offset="1" stop-color="#1565c0"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9fffb"/>
+      <stop offset="1" stop-color="#a8f0e6"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- Hörnchen -->
+  <path d="M158 160 L130 84 Q128 72 140 76 L204 118 Z" fill="#ffd166" stroke="#0b3d63" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M354 160 L382 84 Q384 72 372 76 L308 118 Z" fill="#ffd166" stroke="#0b3d63" stroke-width="10" stroke-linejoin="round"/>
+  <!-- Ärmchen -->
+  <ellipse cx="108" cy="318" rx="34" ry="26" transform="rotate(-25 108 318)" fill="#a8f0e6" stroke="#0b3d63" stroke-width="10"/>
+  <ellipse cx="404" cy="318" rx="34" ry="26" transform="rotate(25 404 318)" fill="#a8f0e6" stroke="#0b3d63" stroke-width="10"/>
+  <!-- Füßchen -->
+  <ellipse cx="190" cy="438" rx="46" ry="26" fill="#a8f0e6" stroke="#0b3d63" stroke-width="10"/>
+  <ellipse cx="322" cy="438" rx="46" ry="26" fill="#a8f0e6" stroke="#0b3d63" stroke-width="10"/>
+  <!-- Körper -->
+  <path d="M256 112 C142 112 96 200 100 306 C104 394 170 440 256 440 C342 440 408 394 412 306 C416 200 370 112 256 112 Z"
+        fill="url(#body)" stroke="#0b3d63" stroke-width="12" stroke-linejoin="round"/>
+  <!-- Bauch-Tupfen -->
+  <circle cx="222" cy="388" r="9" fill="#5fd9cb" opacity=".7"/>
+  <circle cx="256" cy="402" r="9" fill="#5fd9cb" opacity=".7"/>
+  <circle cx="290" cy="388" r="9" fill="#5fd9cb" opacity=".7"/>
+  <!-- Augen -->
+  <circle cx="200" cy="230" r="46" fill="#fff" stroke="#0b3d63" stroke-width="10"/>
+  <circle cx="312" cy="230" r="46" fill="#fff" stroke="#0b3d63" stroke-width="10"/>
+  <circle cx="208" cy="238" r="22" fill="#0b3d63"/>
+  <circle cx="304" cy="238" r="22" fill="#0b3d63"/>
+  <circle cx="216" cy="230" r="8" fill="#fff"/>
+  <circle cx="312" cy="230" r="8" fill="#fff"/>
+  <!-- Wangen -->
+  <ellipse cx="148" cy="300" rx="24" ry="15" fill="#ff9db1" opacity=".85"/>
+  <ellipse cx="364" cy="300" rx="24" ry="15" fill="#ff9db1" opacity=".85"/>
+  <!-- Mund mit Zähnchen -->
+  <path d="M206 306 Q256 366 306 306 Z" fill="#0b3d63" stroke="#0b3d63" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M226 311 L238 327 L250 313 Z M262 313 L274 327 L286 311 Z" fill="#fff"/>
+  <path d="M232 336 Q256 352 280 336 Q256 322 232 336 Z" fill="#ff7b95"/>
+</svg>
